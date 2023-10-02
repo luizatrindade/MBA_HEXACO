@@ -1,0 +1,50 @@
+library(bootnet)
+library(qgraph)
+
+#Rede final da versão reduzida
+data_redefinal <- data[,c(2:6,17,19,20,24:26,30, 35:36,39, 41,42, 44,47,51:56,59,61,63:65, 81,83,86,88,92,93,97:99,101:104,106:108,123,125:126,135,138,147,151:160,162,168,171:178,180,182,192,193,198, 203,214,216,218,221:228,232,233)]
+
+library("bootnet")
+
+Network <- estimateNetwork(data_redefinal, default = "EBICglasso", threshold = TRUE) #EBICfglasso because data is approximately continuous
+
+
+traits <- c(rep('Honesty-Humility',15),rep('Emotionality',15), rep('eXtraversion',16),rep( 'Agreeableness',16), rep( 
+  'Conscientiousness',15), rep ('Openness', 14))
+
+plot(Network, 
+     layout = "spring",
+     groups = traits,
+     label.cex = 0.7, # scalar on label size
+     label.color = 'black', # string on label colors
+     label.prop = 0.9, # proportion of the width of the node that the label scales
+     
+     # Edges 
+     negDashed = T, # negative edges be dashed
+     
+     # Legend 
+     legend.cex = 0.40, # scalar of the legend
+     legend.mode = 'style3', # default is 'style1'
+     #nodeNames = colnames(data_redefinal), # names for each node to plot in legend
+     
+     # Generical graphical arguments 
+     font = 2)
+
+
+
+boot <- bootnet(Network, 
+                nBoots = 250,
+                type = "case",
+                nCores = 8,
+                statistics = c('strength',
+                               'expectedInfluence',
+                               'betweenness',
+                               'closeness'))
+
+centralityPlot(Network, include = "all", orderBy = "ExpectedInfluence")
+plot(boot, statistics = c('strength',
+                          'expectedInfluence',
+                          'betweenness',
+                          'closeness'))
+corStability(boot)
+

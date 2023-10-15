@@ -47,3 +47,49 @@ M2(irtH2)
 itemfit(irtH2)
 coef(irtH2,simplify = TRUE, IRTpars = TRUE)$items
 
+#retirada de itens com as menores discriminacoes
+dataH3<-dataH[,c(2:7,17,19,20,24:26,30, 35:36,39,40)]
+
+myModelH3 <- '
+   # latent variables
+    H3 =~  HSinc2 + HSinc3 + HSinc4 + HSinc5 + HSinc6 + HSinc7  +  HFair7 + HFair9 + HFair10+ HGree4 + HGree5 + HGree6  + HGree10 + HMode5 + HMode6 + HMode9 + HMode10
+   
+'
+
+fit3 <- cfa(model = myModelH3,
+            data  = dataH3, estimator="WLS")
+summary (fit3, fit.measures = TRUE)
+
+irtH3 <- mirt(dataH3,1, itemtype = "gpcm", SE = TRUE)
+M2(irtH3)
+itemfit(irtH3)
+coef(irtH3,simplify = TRUE, IRTpars = TRUE)$items
+
+#retirar tudo com as menores discriminacoes
+
+dataH4<-dataH[,c(2:4,5,6,17,19,20,24:26,30, 35:36,39)]
+
+myModelH4 <- '
+   # latent variables
+    H4 =~    HSinc2 + HSinc3 + HSinc4 + HSinc5 + HSinc6+  HFair7 + HFair9 + HFair10+ HGree4 + HGree5 + HGree6  + HGree10 + HMode5 + HMode6 + HMode9 
+'
+
+fit4 <- cfa(model = myModelH4,
+            data  = dataH4, estimator="WLS")
+summary (fit4, fit.measures = TRUE)
+
+irtH4 <- mirt(dataH4,1, itemtype = "gpcm", SE = TRUE)
+M2(irtH4)
+itemfit(irtH4)
+coef(irtH4,simplify = TRUE, IRTpars = TRUE)$items
+
+#curva de informacao inicial
+extr_H<-extract.item(irtH,2) 
+infoH<-iteminfo(extr_H,Theta, total.info=TRUE) 
+plot(Theta,infoH,type='l',main='Test information Curve')
+
+#curva de informacao final
+extr_H4<-extract.item(irtH4,2) 
+infoH4<-iteminfo(extr_H4,Theta, total.info=TRUE) 
+plot(Theta,infoH4,type='l',main='Test information Curve')
+

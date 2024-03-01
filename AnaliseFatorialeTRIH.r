@@ -5,7 +5,7 @@ install.packages("mirt")
 library(lavaan)
 library(lavaanPlot)
 library(mirt)
-library(devtools)
+library(DescTools)
 
 
 #carregamento de dados-link no readme

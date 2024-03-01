@@ -73,3 +73,7 @@ coef(irtE3,simplify = TRUE, IRTpars = TRUE)$items
 extr_E3<-extract.item(irtE3,2) 
 info3<-iteminfo(extr_E3,Theta, total.info=TRUE) 
 plot(Theta,info3,type='l',main='Test information Curve')
+
+#cálculo de área sob a curva
+DescTools::AUC(x=Theta, y=infoE,method = c("trapezoid"))
+DescTools::AUC(x=Theta, y=infoE3,method = c("trapezoid"))

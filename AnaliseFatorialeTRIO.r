@@ -62,6 +62,10 @@ M2(irtO3)
 itemfit(irtO3)
 coef(irtO3,simplify = TRUE, IRTpars = TRUE)$items
 
+#Plotar a curva de informacao final
 extr_O3<-extract.item(irtO3,2) 
 infoO3<-iteminfo(extr_O3,Theta, total.info=TRUE) 
 plot(Theta,infoO3,type='l',main='Test information Curve')
+
+#calculo da area sob a curva
+DescTools::AUC(x=Theta, y=infoO3, method= c("trapezoid"))

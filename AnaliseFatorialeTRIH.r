@@ -93,3 +93,7 @@ extr_H4<-extract.item(irtH4,2)
 infoH4<-iteminfo(extr_H4,Theta, total.info=TRUE) 
 plot(Theta,infoH4,type='l',main='Test information Curve')
 
+#cálculo de área sob a curva
+DescTools::AUC(x=Theta, y=infoH,method = c("trapezoid"))
+DescTools::AUC(x=Theta, y=infoH4,method = c("trapezoid"))
+

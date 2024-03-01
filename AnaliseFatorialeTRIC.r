@@ -25,3 +25,28 @@ coef(irtC,simplify = TRUE, IRTpars = TRUE)$items
 extr_C<-extract.item(irtC,2) 
 infoC<-iteminfo(extr_C,Theta, total.info=TRUE) 
 plot(Theta,infoC,type='l',main='Test information Curve')
+
+
+
+dataC4 <-data[,c(162,168,171:178,180,182,192,193,198)]
+myModelC4 <- '
+ # latent variables
+C4 =~  COrga2 +  COrga8 + +CDili1 + CDili2  +CDili3  +CDili4 + CDili5  +CDili6  +CDili7  +CDili8 + CDili10 +CPerf2  +CPrud2  +CPrud3 +CPrud8  
+'
+
+ fitC4 <- cfa(model = myModelC4,
+              data  = dataC4, estimator="WLS")
+ summary (fitC4, fit.measures = TRUE)
+irtC4 <- mirt(dataC4,1, itemtype = "gpcm", SE = TRUE)
+M2(irtC4)
+itemfit(irtC4)
+
+coef(irtC4,simplify = TRUE, IRTpars = TRUE)$items
+
+#curva de informacao final
+extr_C4<-extract.item(irtC4,2) 
+infoC4<-iteminfo(extr_C4,Theta, total.info=TRUE) 
+plot(Theta,infoC4,type='l',main='Test information Curve')
+
+#area sob a curva
+DescTools::AUC(x=Theta, y=infoC4, method= c("trapezoid"))
